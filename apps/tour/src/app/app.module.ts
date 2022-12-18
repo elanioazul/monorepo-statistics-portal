@@ -11,6 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     RouterModule.forRoot([
       {
+        path: 'admin',
+        loadChildren: () => import('@portal-map-nx-ngrx/admin').then((m) => m.AdminModule),
+      },
+      {
         path: 'tour',
         loadChildren: () =>
           import('@portal-map-nx-ngrx/visitor').then((m) => m.VisitorModule),
