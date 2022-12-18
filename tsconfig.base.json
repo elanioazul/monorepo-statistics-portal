@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@portal-map-nx-ngrx/admin": ["libs/admin/src/index.ts"],
+      "@portal-map-nx-ngrx/poi": ["libs/poi/src/index.ts"],
       "@portal-map-nx-ngrx/visitor": ["libs/visitor/src/index.ts"]
     }
   },
