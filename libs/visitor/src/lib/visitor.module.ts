@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { PoiModule } from '@portal-map-nx-ngrx/poi';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       { path: '', component: VisitorComponent }
     ]),
+    PoiModule
   ],
   declarations: [
     VisitorComponent
