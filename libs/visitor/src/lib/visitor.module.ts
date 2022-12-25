@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { PoiModule } from '@portal-map-nx-ngrx/poi';
+import { PoiListComponent } from './poi-list/poi-list.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,13 +19,9 @@ import { PoiModule } from '@portal-map-nx-ngrx/poi';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    RouterModule.forChild([
-      { path: '', component: VisitorComponent }
-    ]),
-    PoiModule
+    RouterModule.forChild([{ path: '', component: VisitorComponent }]),
+    PoiModule,
   ],
-  declarations: [
-    VisitorComponent
-  ],
+  declarations: [VisitorComponent, PoiListComponent],
 })
 export class VisitorModule {}
