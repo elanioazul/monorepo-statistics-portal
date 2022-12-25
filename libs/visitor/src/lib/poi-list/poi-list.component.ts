@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { PoiActions, PoiSelectors } from '@portal-map-nx-ngrx/poi';
+import { PoiActions, PoiSelectors, PoiEntity } from '@portal-map-nx-ngrx/poi';
 @Component({
   selector: 'portal-map-nx-ngrx-poi-list',
   templateUrl: './poi-list.component.html',
@@ -14,5 +14,9 @@ export class PoiListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(PoiActions.initPoi())
+  }
+
+  selectPoi(poi: PoiEntity): void {
+    this.store.dispatch(PoiActions.selectPoi({poiId: poi.id}))
   }
 }
