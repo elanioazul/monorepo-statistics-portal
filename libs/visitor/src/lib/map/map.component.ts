@@ -144,9 +144,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   updateCardTemplate(feature: any): void {
-    if (this.poiToFlytTo) {
-      this.poiToFlytTo = poiArr.find(poi => poi.id === feature.values_.id);
-    }
+    this.renderer2.insertBefore(this.mapDiv.nativeElement, this.overlayDiv.nativeElement, this.emptyDiv.nativeElement)
+    this.poiToFlytTo = poiArr.find(poi => poi.id === feature.values_.id);
   }
 
   updateView(coordinates: olCoordinate.Coordinate): void {
