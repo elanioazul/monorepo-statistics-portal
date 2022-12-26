@@ -1,2 +1,17 @@
-<div class="mapcanvas" id="mapcanvas">
+<div #mapcanvas class="mapcanvas" id="mapcanvas">
+  <div #popup id="popup" class="ol-popup" *ngIf="poiToFlytTo">
+    <a href="javascript:void(0)" #popupcloser class="ol-popup-closer" (click)="onCloseCard()"></a>
+    <div #popupcontent id="popup-content">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{poiToFlytTo.name}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="poiToFlytTo.imgUrl">
+        <mat-card-content>
+          <p>{{poiToFlytTo.description}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div #empty id="empty"></div>
 </div>

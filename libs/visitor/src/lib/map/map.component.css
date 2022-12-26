@@ -4,3 +4,20 @@
   position: absolute;
 }
 
+.ol-popup {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 100;
+}
+
+.ol-popup-closer {
+  z-index: 100;
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}

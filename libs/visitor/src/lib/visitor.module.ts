@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { PoiModule } from '@portal-map-nx-ngrx/poi';
 import { PoiListComponent } from './poi-list/poi-list.component';
 import { MapComponent } from './map/map.component';
+import { MatCardModule } from '@angular/material/card';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { MapComponent } from './map/map.component';
     MatListModule,
     RouterModule.forChild([{ path: '', component: VisitorComponent }]),
     PoiModule,
+    MatCardModule
   ],
   declarations: [VisitorComponent, PoiListComponent, MapComponent],
 })

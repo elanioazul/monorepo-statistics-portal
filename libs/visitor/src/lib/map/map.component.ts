@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PoiSelectors } from '@portal-map-nx-ngrx/poi';
 
 import Map from 'ol/Map';
 import OSM from 'ol/source/OSM';
-import TileLayer from 'ol/layer/Tile';
 import LayerTile from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -20,7 +19,6 @@ import * as olEvents from 'ol/events/condition';
 import { poiPoints } from '../data/data-pois';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
-import { type } from 'os';
 
 const poiArr = [
   {
@@ -55,7 +53,11 @@ const poiArr = [
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, AfterViewInit {
+
+  @ViewChild("mapcanvas", { static: false} ) mapDiv!: ElementRef<HTMLElement>;
+  @ViewChild("popup", { static: false} ) overlayDiv!: ElementRef<HTMLElement>;
+  @ViewChild("empty", { static: false} ) emptyDiv!: ElementRef<HTMLElement>;
 
   map!: Map;
   public zoom = new Zoom();
@@ -79,16 +81,19 @@ export class MapComponent implements OnInit {
   poi$ = this.store.select(PoiSelectors.selectSelectedId);
   poiToFlytTo!: any;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private renderer2: Renderer2) {
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.poi$.subscribe(id => {
       this.poiToFlytTo = poiArr.find(poi => poi.id === id);
       if (this.poiToFlytTo) {
         this.updateView([this.poiToFlytTo.lng, this.poiToFlytTo.lat])
+        this.renderer2.insertBefore(this.mapDiv.nativeElement, this.overlayDiv.nativeElement, this.emptyDiv.nativeElement)
       }
     })
+  }
+  ngOnInit(): void {
     this.map = new Map ({
       target: 'mapcanvas',
       layers: [ new LayerTile ({
@@ -122,4 +127,9 @@ export class MapComponent implements OnInit {
     });
     this.map.setView(newView);
   }
+
+  onCloseCard() {
+    this.renderer2.removeChild(this.mapDiv?.nativeElement, this.overlayDiv?.nativeElement, true)
+  }
+
 }
