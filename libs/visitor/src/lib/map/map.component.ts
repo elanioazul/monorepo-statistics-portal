@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { PoiSelectors } from '@portal-map-nx-ngrx/poi';
+import { PoiSelectors, PoiActions } from '@portal-map-nx-ngrx/poi';
 
 import Map from 'ol/Map';
 import OSM from 'ol/source/OSM';
@@ -95,7 +95,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.poi$.subscribe(id => {
       this.poiToFlytTo = poiArr.find(poi => poi.id === id);
       if (this.poiToFlytTo) {
-        this.updateView([this.poiToFlytTo.lng, this.poiToFlytTo.lat])
+        this.updateView([this.poiToFlytTo.lng, this.poiToFlytTo.lat], this.poiToFlytTo.id)
         this.renderer2.insertBefore(this.mapDiv.nativeElement, this.overlayDiv.nativeElement, this.emptyDiv.nativeElement)
       }
     })
@@ -129,18 +129,19 @@ export class MapComponent implements OnInit, AfterViewInit {
       const clicked = e.target.getFeatures().array_[0];
       const coordClicked = clicked.values_.geometry.flatCoordinates;
       this.updateCardTemplate(clicked);
-      this.updateViewFlatCoord(coordClicked);
+      this.updateViewFlatCoord(coordClicked, clicked);
     } else {
       return
     }
   }
 
-  updateViewFlatCoord(coordinates: olCoordinate.Coordinate): void {
+  updateViewFlatCoord(coordinates: olCoordinate.Coordinate, feature: any): void {
     const newView = new View({
       center: coordinates,
       zoom: 9
     });
     this.map.setView(newView);
+    this.store.dispatch(PoiActions.visitPoi({poiId: feature.id}))
   }
 
   updateCardTemplate(feature: any): void {
@@ -148,12 +149,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.poiToFlytTo = poiArr.find(poi => poi.id === feature.values_.id);
   }
 
-  updateView(coordinates: olCoordinate.Coordinate): void {
+  updateView(coordinates: olCoordinate.Coordinate, poiId: number): void {
     const newView = new View({
       center: fromLonLat(coordinates),
       zoom: 9
     });
     this.map.setView(newView);
+    this.store.dispatch(PoiActions.visitPoi({poiId: poiId}))
   }
 
   onCloseCard() {
