@@ -28,6 +28,7 @@
     "@ngrx/router-store": "~15.0.0",
     "@ngrx/store": "~15.0.0",
     "@nrwl/angular": "15.3.2",
+    "ol": "^7.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -49,6 +50,7 @@
     "@nrwl/workspace": "15.3.2",
     "@types/jest": "28.1.1",
     "@types/node": "16.11.7",
+    "@types/ol": "^6.5.3",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "cypress": "^11.0.0",
