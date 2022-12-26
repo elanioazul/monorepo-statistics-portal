@@ -77,6 +77,13 @@ export class MapComponent implements OnInit, AfterViewInit {
       })
     })
   });
+  public selectInteractionFeatures = new Select({
+    condition: olEvents.click,
+    layers: [this.poisPoints],
+    style: null,
+    multi: false,
+    hitTolerance: 2
+  });
 
   poi$ = this.store.select(PoiSelectors.selectSelectedId);
   poiToFlytTo!: any;
@@ -109,21 +116,43 @@ export class MapComponent implements OnInit, AfterViewInit {
       }),
       controls: [this.zoom]
     });
-    this.map.addInteraction(new Select({
-      condition: olEvents.click,
-      layers: [this.poisPoints],
-      style: null,
-      multi: false,
-      hitTolerance: 2
-    }));
+    this.map.addInteraction(this.selectInteractionFeatures);
+    this.selectInteractionFeatures.on('select', (e) => {
+      return this.renovateOverlayWhenOhterFeatureClicked(e)
+    });
 
 
+  }
+
+  renovateOverlayWhenOhterFeatureClicked(e: any) {
+    if (e.selected.length > 0) {
+      const clicked = e.target.getFeatures().array_[0];
+      const coordClicked = clicked.values_.geometry.flatCoordinates;
+      this.updateCardTemplate(clicked);
+      this.updateViewFlatCoord(coordClicked);
+    } else {
+      return
+    }
+  }
+
+  updateViewFlatCoord(coordinates: olCoordinate.Coordinate): void {
+    const newView = new View({
+      center: coordinates,
+      zoom: 9
+    });
+    this.map.setView(newView);
+  }
+
+  updateCardTemplate(feature: any): void {
+    if (this.poiToFlytTo) {
+      this.poiToFlytTo = poiArr.find(poi => poi.id === feature.values_.id);
+    }
   }
 
   updateView(coordinates: olCoordinate.Coordinate): void {
     const newView = new View({
       center: fromLonLat(coordinates),
-      zoom: 12
+      zoom: 9
     });
     this.map.setView(newView);
   }
