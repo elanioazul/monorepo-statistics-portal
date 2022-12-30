@@ -30,7 +30,8 @@
         ],
         "scripts": [
           "../node_modules/chart.js/dist/chart.js"
-        ]
+        ],
+        "allowedCommonJsDependencies": ["chart.js", "rbush"]
       },
       "configurations": {
         "production": {
